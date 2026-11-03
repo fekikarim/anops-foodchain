@@ -1,0 +1,21 @@
+{
+  "name": "anops-foodchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "chai": "^6.3.0",
+    "truffle": "^5.11.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3"
+  }
+}
