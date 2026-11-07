@@ -76,7 +76,7 @@ contract("FoodBatchNFT", (accounts) => {
   });
 
   it("reverts for non-farmer trying to register", async () => {
-    await expectRevert(registerTomatoes(unauthorized), "NFT: Farmer role required");
+    await expectRevert(registerTomatoes(unauthorized), "NFT: Only a Farmer can register batches");
   });
 
   it("reverts with empty product type", async () => {
@@ -100,7 +100,7 @@ contract("FoodBatchNFT", (accounts) => {
     await registerTomatoes();
     await expectRevert(
       nft.shipBatch(1, wholesaler, "hack", { from: transporter }),
-      "NFT: Only current holder can ship"
+      "NFT: Only the current holder can ship"
     );
   });
 
@@ -121,7 +121,7 @@ contract("FoodBatchNFT", (accounts) => {
     await nft.shipBatch(1, wholesaler, "Shipped", { from: farmer });
     await expectRevert(
       nft.confirmReceipt(1, "hack", { from: retailer }),
-      "NFT: Caller is not expected recipient"
+      "NFT: You are not the expected recipient"
     );
   });
 
@@ -145,10 +145,10 @@ contract("FoodBatchNFT", (accounts) => {
 
   it("recalled batch cannot be shipped", async () => {
     await registerTomatoes();
-    await nft.recallBatch(1, { from: admin });
+    await nft.recallBatch(1, "Salmonella", { from: admin });
     await expectRevert(
       nft.shipBatch(1, wholesaler, "try", { from: farmer }),
-      "NFT: Batch in terminal state"
+      "NFT: Only Created or Received batches can be shipped"
     );
   });
 
@@ -167,7 +167,7 @@ contract("FoodBatchNFT", (accounts) => {
   // ── Flag / Recall ───────────────────────────────────────────────
   it("admin can flag a batch", async () => {
     await registerTomatoes();
-    const tx = await nft.flagBatch(1, web3.utils.soliditySha3("CONTAMINATED"), { from: admin });
+    const tx = await nft.flagBatch(1, web3.utils.soliditySha3("CONTAMINATED"), "Lab test failed", { from: admin });
     expectEvent(tx, "BatchFlagged", { tokenId: "1" });
     assert.equal((await nft.getBatch(1)).status, 4); // Flagged
   });
@@ -175,7 +175,7 @@ contract("FoodBatchNFT", (accounts) => {
   it("non-admin cannot recall", async () => {
     await registerTomatoes();
     await expectRevert(
-      nft.recallBatch(1, { from: farmer }),
+      nft.recallBatch(1, "x", { from: farmer }),
       "NFT: Admin role required"
     );
   });

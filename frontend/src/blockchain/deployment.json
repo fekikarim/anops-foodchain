@@ -1,0 +1,2528 @@
+{
+  "generatedAt": "2026-11-04T10:39:58.787Z",
+  "network": "development",
+  "chainId": 1337,
+  "rpcUrl": "http://127.0.0.1:7545",
+  "deployer": "0xE4a1Ff245F795c71e65ffe7e38aCE87e14fFd157",
+  "addresses": {
+    "FoodChainToken": "0xf6B3A6c342E916cB95C26aC37bdA52CE7f70E90f",
+    "FoodBatchNFT": "0xC82498BdcA04362c228e9b3E53f8dA889fF16d45"
+  },
+  "deployBlocks": {
+    "FoodChainToken": 437,
+    "FoodBatchNFT": 438
+  },
+  "demoAccounts": {
+    "admin": "0xE4a1Ff245F795c71e65ffe7e38aCE87e14fFd157",
+    "farmer": "0x988336fCCc4fA82BA85b4A8748c7730B6e66a8d0",
+    "transporter": "0x7FB56013c875d83770Bf5c275035EEa648A8BD57",
+    "wholesaler": "0xeA213B273D22a5d21E6Ec1dd11aCbd9AF924748A",
+    "retailer": "0x209900D06515EeE05A5a3dcfd5c0069558bB8b54",
+    "unauthorized": "0xbca8814404a9734238421be0F7903405933EAA2D"
+  },
+  "abi": {
+    "FoodChainToken": [
+      {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Approval",
+        "type": "event",
+        "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "caller",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "authorized",
+            "type": "bool"
+          }
+        ],
+        "name": "AuthorizedCallerUpdated",
+        "type": "event",
+        "signature": "0xad857fa38c9319cb80848f1ef2f924383b90297eb5d71755738ff037d100faa1"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event",
+        "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "Paused",
+        "type": "event",
+        "signature": "0x62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "by",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "newTotalSupply",
+            "type": "uint256"
+          }
+        ],
+        "name": "PoolToppedUp",
+        "type": "event",
+        "signature": "0x3b85519fe831aa034bd5d45c8931063f28cc65188e1a362e988a80b7ccbf04d1"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "operationId",
+            "type": "bytes32"
+          },
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "actionType",
+            "type": "bytes32"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "caller",
+            "type": "address"
+          }
+        ],
+        "name": "RewardAction",
+        "type": "event",
+        "signature": "0xc62b564dd03cca14dbfce21cc59abe632784fa4b8f70bc41171847ea3b0aaa9e"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "actionType",
+            "type": "bytes32"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "newAmount",
+            "type": "uint256"
+          }
+        ],
+        "name": "RewardAmountUpdated",
+        "type": "event",
+        "signature": "0x574df308f7912f416eb63e67076f5f9e0a9cbd8c6afb718e029df2c22728b372"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "operationId",
+            "type": "bytes32"
+          }
+        ],
+        "name": "RewardIssued",
+        "type": "event",
+        "signature": "0x8c0ba91ed9e44c0a68b6055e2cc192cb295b9b4614adf8f34d1663077a9cd8e3"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Transfer",
+        "type": "event",
+        "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "Unpaused",
+        "type": "event",
+        "signature": "0x5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa"
+      },
+      {
+        "inputs": [],
+        "name": "ACTION_DELIVER",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xb0cbc039"
+      },
+      {
+        "inputs": [],
+        "name": "ACTION_RECEIVE",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x0ee5cdb3"
+      },
+      {
+        "inputs": [],
+        "name": "ACTION_REGISTER",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xc6444390"
+      },
+      {
+        "inputs": [],
+        "name": "ACTION_SHIP",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xdeea278a"
+      },
+      {
+        "inputs": [],
+        "name": "INITIAL_SUPPLY",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x2ff2e9dc"
+      },
+      {
+        "inputs": [],
+        "name": "MAX_SUPPLY",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x32cb6b0c"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          }
+        ],
+        "name": "allowance",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xdd62ed3e"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "approve",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x095ea7b3"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "authorizedCallers",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x536fff6c"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x70a08231"
+      },
+      {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x313ce567"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "subtractedValue",
+            "type": "uint256"
+          }
+        ],
+        "name": "decreaseAllowance",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xa457c2d7"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "addedValue",
+            "type": "uint256"
+          }
+        ],
+        "name": "increaseAllowance",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x39509351"
+      },
+      {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x06fdde03"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x8da5cb5b"
+      },
+      {
+        "inputs": [],
+        "name": "paused",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x5c975abb"
+      },
+      {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x715018a6"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "name": "rewardAmounts",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x9e36effa"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "rewardCount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xb5af960d"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "name": "rewardedOperations",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x15807295"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "rewardsReceived",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x68b82a7f"
+      },
+      {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x95d89b41"
+      },
+      {
+        "inputs": [],
+        "name": "totalRewarded",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xaed29d07"
+      },
+      {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x18160ddd"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xa9059cbb"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "transferFrom",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x23b872dd"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xf2fde38b"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "actionType",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "operationId",
+            "type": "bytes32"
+          }
+        ],
+        "name": "rewardForAction",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xc91adae2"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "operationId",
+            "type": "bytes32"
+          }
+        ],
+        "name": "rewardActor",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x981692a9"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "actionType",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "setRewardAmount",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x5faf56d3"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "caller",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "authorized",
+            "type": "bool"
+          }
+        ],
+        "name": "setAuthorizedCaller",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x454bbd29"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "mint",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xa0712d68"
+      },
+      {
+        "inputs": [],
+        "name": "pause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x8456cb59"
+      },
+      {
+        "inputs": [],
+        "name": "unpause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x3f4ba83a"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "actionType",
+            "type": "bytes32"
+          }
+        ],
+        "name": "getRewardAmount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x1af57b96"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "operationId",
+            "type": "bytes32"
+          }
+        ],
+        "name": "isOperationRewarded",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xed8642f0"
+      },
+      {
+        "inputs": [],
+        "name": "rewardPool",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x66666aa9"
+      },
+      {
+        "inputs": [],
+        "name": "getRewardSchedule",
+        "outputs": [
+          {
+            "internalType": "bytes32[]",
+            "name": "actionTypes",
+            "type": "bytes32[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "amounts",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x6fac338b"
+      },
+      {
+        "inputs": [],
+        "name": "getOverview",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "supply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxSupply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pool",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rewarded",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isPaused",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "admin",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x20443e8d"
+      }
+    ],
+    "FoodBatchNFT": [
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "fctAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint8",
+            "name": "role",
+            "type": "uint8"
+          }
+        ],
+        "name": "ActorRoleSet",
+        "type": "event",
+        "signature": "0x47ad74f87393ae969f0091f9b434c8e4cff57f5602bfa310fa3bf8dc16ab6c96"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "approved",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "Approval",
+        "type": "event",
+        "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "operator",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "approved",
+            "type": "bool"
+          }
+        ],
+        "name": "ApprovalForAll",
+        "type": "event",
+        "signature": "0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          }
+        ],
+        "name": "BatchCancelled",
+        "type": "event",
+        "signature": "0x839b828a70e689fbcd4e555a39b6eb75b3a2c8cacb4f7ad0f492d77d1d2880ee"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "name": "BatchDelivered",
+        "type": "event",
+        "signature": "0xb2a6072709f2e5946e75231144f7906d5f74c33c928efc93550d2cf45cda7e82"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          }
+        ],
+        "name": "BatchFlagCleared",
+        "type": "event",
+        "signature": "0x5cbe6fcfe4ddec79a5f0d781bb86d05d295d5b1e884f2bc3c3c7f3b1f47817b8"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "bytes32",
+            "name": "reasonCode",
+            "type": "bytes32"
+          }
+        ],
+        "name": "BatchFlagged",
+        "type": "event",
+        "signature": "0xf1ab4f3fd9b40cabdc829afe5da70364cd929b376ab1e73b95240dbe7db38ce7"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          }
+        ],
+        "name": "BatchRecalled",
+        "type": "event",
+        "signature": "0x5a41088291f050dab11b8aeaaeaa8fd33f2225751a5d64008f812e0362ef4725"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "name": "BatchReceived",
+        "type": "event",
+        "signature": "0x3ee410ca09d61e8af6049b2d9a91a1bc39d01bdeffbac1a042c97c176ecc4c24"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "batchCode",
+            "type": "bytes32"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "producer",
+            "type": "address"
+          }
+        ],
+        "name": "BatchRegistered",
+        "type": "event",
+        "signature": "0x8492720c715a3b6a5fc1d41dadc45b82e82ed271bc510d9267a93d976f847eef"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          }
+        ],
+        "name": "BatchShipped",
+        "type": "event",
+        "signature": "0x99725642ec5d93f72bd717ae86cdef68f698e48e288ad04141d928bd29e95d1a"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event",
+        "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "bytes32",
+            "name": "actionType",
+            "type": "bytes32"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "reason",
+            "type": "string"
+          }
+        ],
+        "name": "RewardSkipped",
+        "type": "event",
+        "signature": "0xc4fe2edd66cc08cbfe2945b8388315a0fdddd47fecc5eab884b8efdeae26a50b"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "Transfer",
+        "type": "event",
+        "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+      },
+      {
+        "inputs": [],
+        "name": "ROLE_ADMIN",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xd391014b"
+      },
+      {
+        "inputs": [],
+        "name": "ROLE_FARMER",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xebb6a8ce"
+      },
+      {
+        "inputs": [],
+        "name": "ROLE_NONE",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x77cc16e0"
+      },
+      {
+        "inputs": [],
+        "name": "ROLE_RETAILER",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xb43857e8"
+      },
+      {
+        "inputs": [],
+        "name": "ROLE_TRANSPORTER",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xbc7b8b24"
+      },
+      {
+        "inputs": [],
+        "name": "ROLE_WHOLESALER",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x2fac5b40"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "actorRoles",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x9da5e5da"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x70a08231"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "name": "batchCodeToTokenId",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xbc63f851"
+      },
+      {
+        "inputs": [],
+        "name": "foodChainToken",
+        "outputs": [
+          {
+            "internalType": "contract IFoodChainToken",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x6e5add6d"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "getApproved",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x081812fc"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "operator",
+            "type": "address"
+          }
+        ],
+        "name": "isApprovedForAll",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xe985e9c5"
+      },
+      {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x06fdde03"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x8da5cb5b"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "ownerOf",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x6352211e"
+      },
+      {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x715018a6"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "safeTransferFrom",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x42842e0e"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "name": "safeTransferFrom",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xb88d4fde"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes4",
+            "name": "interfaceId",
+            "type": "bytes4"
+          }
+        ],
+        "name": "supportsInterface",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x01ffc9a7"
+      },
+      {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x95d89b41"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "transferFrom",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x23b872dd"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xf2fde38b"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "name": "usedBatchCodes",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x9e8c5c8c"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "role",
+            "type": "uint8"
+          }
+        ],
+        "name": "setActorRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xf7133460"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "batchCode",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "string",
+            "name": "productType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "producerName",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "originRegion",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "harvestDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "quantity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "quantityUnit",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "metadataURI",
+            "type": "string"
+          }
+        ],
+        "name": "registerBatch",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x14893d70"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          }
+        ],
+        "name": "shipBatch",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x90eb0ac9"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          }
+        ],
+        "name": "confirmReceipt",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x48fd93d0"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "reasonCode",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          }
+        ],
+        "name": "flagBatch",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x6dcfc694"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          }
+        ],
+        "name": "clearFlag",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x401e65f1"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          }
+        ],
+        "name": "recallBatch",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x04341422"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          }
+        ],
+        "name": "cancelBatch",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x05beaad5"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "getBatch",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "batchCode",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "string",
+                "name": "productType",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "producerName",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "originRegion",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "harvestDate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "quantity",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "quantityUnit",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "registrationDate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "enum FoodBatchNFT.BatchStatus",
+                "name": "status",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "currentHolder",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "expectedRecipient",
+                "type": "address"
+              },
+              {
+                "internalType": "string",
+                "name": "metadataURI",
+                "type": "string"
+              }
+            ],
+            "internalType": "struct FoodBatchNFT.BatchInfo",
+            "name": "",
+            "type": "tuple"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x5ac44282"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "batchCode",
+            "type": "bytes32"
+          }
+        ],
+        "name": "getBatchByCode",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "batchCode",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "string",
+                "name": "productType",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "producerName",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "originRegion",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "harvestDate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "quantity",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "quantityUnit",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "registrationDate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "enum FoodBatchNFT.BatchStatus",
+                "name": "status",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "currentHolder",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "expectedRecipient",
+                "type": "address"
+              },
+              {
+                "internalType": "string",
+                "name": "metadataURI",
+                "type": "string"
+              }
+            ],
+            "internalType": "struct FoodBatchNFT.BatchInfo",
+            "name": "info",
+            "type": "tuple"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x12624573"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "getBatchHistory",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+              },
+              {
+                "internalType": "address",
+                "name": "actor",
+                "type": "address"
+              },
+              {
+                "internalType": "string",
+                "name": "actionType",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "details",
+                "type": "string"
+              },
+              {
+                "internalType": "enum FoodBatchNFT.BatchStatus",
+                "name": "statusAfter",
+                "type": "uint8"
+              }
+            ],
+            "internalType": "struct FoodBatchNFT.HistoryEntry[]",
+            "name": "",
+            "type": "tuple[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xc7a8ccb1"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "batchCode",
+            "type": "bytes32"
+          }
+        ],
+        "name": "isBatchCodeAvailable",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x41699c53"
+      },
+      {
+        "inputs": [],
+        "name": "totalBatches",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x69ff6abb"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "actor",
+            "type": "address"
+          }
+        ],
+        "name": "getActorRole",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xe3a00ef1"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "offset",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "limit",
+            "type": "uint256"
+          }
+        ],
+        "name": "getBatchesPage",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "batchCode",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "string",
+                "name": "productType",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "producerName",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "originRegion",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "harvestDate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "quantity",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "quantityUnit",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "registrationDate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "enum FoodBatchNFT.BatchStatus",
+                "name": "status",
+                "type": "uint8"
+              },
+              {
+                "internalType": "address",
+                "name": "currentHolder",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "expectedRecipient",
+                "type": "address"
+              },
+              {
+                "internalType": "string",
+                "name": "metadataURI",
+                "type": "string"
+              }
+            ],
+            "internalType": "struct FoodBatchNFT.BatchInfo[]",
+            "name": "page",
+            "type": "tuple[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x7bde1156"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "holder",
+            "type": "address"
+          }
+        ],
+        "name": "getBatchesByHolder",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "ids",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x64be14ef"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "name": "getIncomingBatches",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "ids",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x34dced2d"
+      },
+      {
+        "inputs": [],
+        "name": "getStats",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "total",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256[7]",
+            "name": "byStatus",
+            "type": "uint256[7]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "actorCount",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xc59d4847"
+      },
+      {
+        "inputs": [],
+        "name": "getActors",
+        "outputs": [
+          {
+            "internalType": "address[]",
+            "name": "actors",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint8[]",
+            "name": "roles",
+            "type": "uint8[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x137e7a7d"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
+        ],
+        "name": "getAvailableActions",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "bool",
+                "name": "canShip",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "canConfirmReceipt",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "canFlag",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "canClearFlag",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "canRecall",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "canCancel",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct FoodBatchNFT.ActionFlags",
+            "name": "f",
+            "type": "tuple"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0x8aa9bf23"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "approve",
+        "outputs": [],
+        "stateMutability": "pure",
+        "type": "function",
+        "constant": true,
+        "signature": "0x095ea7b3"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "name": "setApprovalForAll",
+        "outputs": [],
+        "stateMutability": "pure",
+        "type": "function",
+        "constant": true,
+        "signature": "0xa22cb465"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "tokenURI",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true,
+        "signature": "0xc87b56dd"
+      }
+    ]
+  }
+}

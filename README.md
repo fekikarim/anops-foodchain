@@ -1,237 +1,69 @@
-# 🌿 AnOps FoodChain
+# AnOps FoodChain
 
-> Blockchain-powered food supply chain traceability platform.  
-> ERC-721 digital batch passports + ERC-20 reward token, built with Truffle, Solidity, React, Vite, and ethers.js.
+Blockchain food-supply-chain traceability for fresh produce — two interconnected smart contracts and a live, MetaMask-connected DApp, running on a local **Ganache** network.
 
-[![Solidity](https://img.shields.io/badge/Solidity-^0.8.19-363636?logo=solidity)](https://soliditylang.org/)
-[![Truffle](https://img.shields.io/badge/Truffle-5.11.5-blue?logo=truffle)](https://trufflesuite.com/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)](https://vitejs.dev/)
-[![ethers.js](https://img.shields.io/badge/ethers.js-5.7.2-333333?logo=ethers)](https://docs.ethers.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
----
-
-## 📖 Overview
-
-**AnOps FoodChain** is a decentralized application (DApp) that brings end-to-end traceability to food supply chains. Every food batch is minted as a unique ERC-721 NFT ("digital passport") that travels through the supply chain — from farmer to transporter, wholesaler, and retailer. Actors earn ERC-20 **FoodChainToken (FCT)** rewards for completing validated supply-chain actions.
-
-### Core Features
-
-| Feature | Description |
-|---------|-------------|
-| **📦 Batch Registration** | Farmers register food batches; each batch is minted as an ERC-721 NFT with a unique batch code. |
-| **🚚 Lifecycle Tracking** | Track batches through `Created → In Transit → Received → Delivered` with immutable on-chain history. |
-| **👥 Role-Based Access** | Six roles (`None`, `Farmer`, `Transporter`, `Wholesaler`, `Retailer`, `Admin`) enforce who can perform each action. |
-| **🪙 Reward Token (FCT)** | ERC-20 token rewards actors for `REGISTER`, `SHIP`, `RECEIVE`, and `DELIVER` actions (anti-double-reward protection). |
-| **🚨 Flag & Recall** | Admin can flag suspicious batches or issue recalls (terminal states). |
-| **🔗 MetaMask Integration** | Connect any Ethereum-compatible wallet (configured for Ganache Local, Chain ID 1337). |
-| **📊 Dashboard** | Real-time stats, batch counts by status, recent registrations, and reward history. |
-
----
-
-## 🏗️ Architecture
+| Contract | Standard | Author | Role |
+|---|---|---|---|
+| `FoodChainToken.sol` (FCT) | ERC-20 | Karim Feki | Reward points paid to actors for validated steps |
+| `FoodBatchNFT.sol` (FBP) | ERC-721 | Nesrine Derouiche | One NFT passport per food batch + full history |
 
 ```
-anops-foodchain/
-├── contracts/                 # Solidity smart contracts
-│   ├── FoodChainToken.sol     # ERC-20 reward token (FCT)
-│   └── FoodBatchNFT.sol       # ERC-721 batch passport NFT (FBP)
-├── migrations/                # Truffle deployment scripts
-│   ├── 1_deploy_food_chain_token.js
-│   └── 2_deploy_food_batch_nft.js
-├── test/                      # Truffle test suites
-│   ├── FoodBatchNFT.test.js
-│   ├── FoodChainIntegration.test.js
-│   └── FoodChainToken.test.js
-├── build/                     # Compiled contract artifacts (gitignored)
-├── frontend/                  # React + Vite DApp
-│   ├── src/
-│   │   ├── App.jsx            # App shell + navigation + wallet connector
-│   │   ├── main.jsx           # React entry point
-│   │   ├── index.css          # Global styles
-│   │   ├── App.css            # App-specific styles
-│   │   ├── blockchain/        # ethers.js provider, contract ABIs, addresses
-│   │   │   ├── provider.js    # MetaMask connection + network checks
-│   │   │   └── contracts.js   # Contract addresses, ABIs, role/status helpers
-│   │   ├── hooks/             # React hooks
-│   │   │   └── useContracts.js# Wallet connection + contract state
-│   │   ├── pages/             # Route pages
-│   │   │   ├── Dashboard.jsx  # Stats + recent events
-│   │   │   ├── Batches.jsx    # Batch lifecycle actions
-│   │   │   ├── Actors.jsx     # Role lookup & assignment
-│   │   │   └── Rewards.jsx    # FCT balance + reward history
-│   │   └── assets/            # Static assets (hero.png, icons)
-│   ├── vite.config.js         # Vite configuration
-│   ├── eslint.config.js       # ESLint flat config
-│   ├── index.html             # HTML entry
-│   └── package.json           # Frontend dependencies
-├── truffle-config.js          # Truffle + Solidity compiler config
-├── package.json               # Root dependencies (Truffle, OpenZeppelin, etc.)
-├── package-lock.json          # Lockfile (gitignored)
-├── .gitignore                 # Git ignore rules
-└── README.md                  # This file
+Farmer ──ship──▶ Transporter ──ship──▶ Wholesaler ──ship──▶ Retailer
+  mint NFT       confirm receipt        confirm receipt      confirm = Delivered
+  +10 FCT        +5 FCT (+3 shipper)    +5 FCT (+3 shipper)  +5 FCT (+3 shipper)
 ```
 
-### Smart Contracts
+## Quick start
 
-#### `FoodChainToken` (FCT) — ERC-20 Reward Token
-- **Standard:** ERC-20 + Ownable + Pausable (OpenZeppelin v4)
-- **Initial supply:** 1,000,000 FCT (18 decimals), minted to deployer
-- **Authorized callers:** Only the owner or whitelisted callers (e.g., the NFT contract) can issue rewards
-- **Anti-double-reward:** Each `operationId` can be rewarded only once
-- **Reward amounts per action:**
-  - `REGISTER_BATCH` — 10 FCT
-  - `SHIP_BATCH` — 3 FCT
-  - `RECEIVE_BATCH` — 5 FCT
-  - `DELIVER_BATCH` — 5 FCT
-- **Admin functions:** `setRewardAmount`, `setAuthorizedCaller`, `pause` / `unpause`
-
-#### `FoodBatchNFT` (FBP) — ERC-721 Batch Passport
-- **Standard:** ERC-721 + Ownable + Counters (OpenZeppelin v4)
-- **Each NFT = one food batch** with on-chain `BatchInfo` (product, producer, origin, harvest date, quantity, status, holder, etc.)
-- **Batch statuses:** `Created`, `In Transit`, `Received`, `Delivered`, `Flagged`, `Recalled`, `Cancelled`
-- **Actor roles:** `None`, `Farmer`, `Transporter`, `Wholesaler`, `Retailer`, `Admin`
-- **Key functions:**
-  - `registerBatch(...)` — Farmer mints a new batch NFT (+ reward)
-  - `shipBatch(tokenId, recipient, details)` — Current holder ships the batch
-  - `confirmReceipt(tokenId)` — Expected recipient confirms receipt (Retailer → `Delivered`)
-  - `flagBatch(tokenId, reasonCode)` / `recallBatch(tokenId)` — Admin actions (terminal)
-  - `setActorRole(actor, role)` — Admin assigns roles
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18+ recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [Ganache](https://trufflesuite.com/ganache/) (local blockchain, Chain ID 1337)
-- [MetaMask](https://metamask.io/) browser extension
-
-### 1. Clone & Install
+Prerequisites: Node.js LTS, Ganache (GUI on `127.0.0.1:7545`, chain id `1337`), MetaMask.
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/anops-foodchain.git
-cd anops-foodchain
-
-# Install root dependencies (Truffle, OpenZeppelin, etc.)
 npm install
-
-# Install frontend dependencies
-cd frontend
-npm install
-cd ..
+npm --prefix frontend install
+npm test            # 55 contract tests (needs Ganache running)
+npm run deploy      # compile + migrate + writes frontend/src/blockchain/deployment.json
+npm start           # frontend on http://localhost:5173
 ```
 
-### 2. Configure Truffle
+`GANACHE_HOST` / `GANACHE_PORT` override the RPC in `truffle-config.js`; `VITE_RPC_URL` overrides it for the frontend.
+Contract addresses and ABIs are **generated by the migration** (`migrations/3_export_frontend_config.js`) — never edit them by hand. Re-run `npm run deploy` after restarting Ganache.
 
-Edit `truffle-config.js` if your Ganache runs on a different port/network:
+### MetaMask
+1. Add network **Ganache Local** — RPC `http://127.0.0.1:7545`, Chain ID `1337`, symbol ETH (the app can add/switch it for you).
+2. Import Ganache test accounts #1–#6 (test keys only, never real funds). Roles are pre-assigned by the migration:
+   #1 Admin · #2 Farmer · #3 Transporter · #4 Wholesaler · #5 Retailer · #6 no role.
 
-```js
-development: {
-  host: "127.0.0.1",
-  port: 7545,        // Ganache default
-  network_id: "*",
-}
-```
+### "Nothing works / I have no role" (read this first)
+Your MetaMask account must have test ETH on Ganache and a role. On a local Ganache you do not need to do either by hand: open the app, connect, and press **Fix my account** (Overview) or **Make me Farmer / Transporter / …** (Actors page). The app sends test ETH and assigns the role using Ganache's unlocked admin account. No Hardhat or Remix needed.
 
-### 3. Start Ganache
+## Guided demo
+Open the **Guide** page: it lists each step, which account to use, and ticks steps automatically from on-chain state. Summary:
 
-Launch Ganache Desktop (or CLI) and ensure it's listening on `127.0.0.1:7545` with **Chain ID 1337**.
+1. Farmer registers `TOM-TN-001` (Tomatoes, Nabeul, 500 kg) → NFT minted, +10 FCT.
+2. Farmer ships → Transporter confirms → Transporter ships → Wholesaler confirms → Wholesaler ships → Retailer confirms (`Delivered`).
+3. Anyone reads the journey (actor, time, block, tx hash) in the batch drawer; rewards appear on **Rewards**; every tx on **Activity**.
+4. Negative tests: account #6 cannot register; a non-recipient cannot confirm; a second reward for the same operation reverts; direct ERC-721 transfers/approvals revert.
 
-### 4. Compile & Deploy Contracts
+## Smart-contract design
 
-```bash
-# Compile Solidity contracts
-npx truffle compile
+**FoodChainToken** — OpenZeppelin ERC-20 + `Ownable` + `Pausable`.
+- Rewards come from the *reward pool* (owner balance). The NFT contract is an authorised caller but can only call `rewardForAction(actor, actionType, operationId)`; the amount comes from the on-chain schedule (`setRewardAmount`). Free-form `rewardActor` is owner-only.
+- `operationId` anti-duplication; per-actor `rewardsReceived` / `rewardCount`; `totalRewarded`.
+- `mint` tops up the pool, hard-capped by `MAX_SUPPLY` (5 M). `getOverview()`, `getRewardSchedule()` feed the UI.
+- Events: `RewardIssued`, `RewardAction` (why), `RewardAmountUpdated`, `AuthorizedCallerUpdated`, `PoolToppedUp`.
 
-# Deploy to Ganache
-npx truffle migrate --network development
-```
+**FoodBatchNFT** — OpenZeppelin ERC-721 + `Ownable`.
+- Roles (Farmer, Transporter, Wholesaler, Retailer, Admin) enforced on-chain; recipient of a shipment must be a Transporter/Wholesaler/Retailer.
+- Lifecycle `Created → InTransit → Received → … → Delivered`; `Flagged` (any actor; admin `clearFlag` restores the previous status), `Recalled` and `Cancelled` are terminal.
+- NFT moves only on `confirmReceipt` by the intended recipient; `transferFrom`, `approve`, `setApprovalForAll` revert.
+- A failing reward never blocks traceability: the NFT emits `RewardSkipped(reason)` instead.
+- Guidance helpers: `getAvailableActions(tokenId, user)`, `getStats()`, `getActors()`, `getBatchesPage()`, `getBatchesByHolder()`, `getIncomingBatches()`, `isBatchCodeAvailable()`.
+- Short text fields only (≤ 64 chars); photos/certificates belong off-chain (`metadataURI`).
 
-> 💡 Copy the deployed contract addresses from the migration output and paste them into `frontend/src/blockchain/contracts.js` (`ADDRESSES` object).
+## Frontend (React + Vite + ethers v5)
+- Reads work without a wallet; every new Ganache block triggers a refresh (live sync indicator in the top bar), so changes made from other accounts appear within ~2 s.
+- Transactions are simulated first (`callStatic`) to turn reverts into plain-language explanations, then signed in MetaMask; success is only shown after the receipt is mined.
+- Role-aware "What should I do now?", batch search + filters, passport drawer with journey timeline and tx hashes, ERC-20 transfer/approve/transferFrom tools, admin controls, dark/light theme, mobile bottom navigation and bottom-sheet drawers.
 
-### 5. Run the Frontend
-
-```bash
-cd frontend
-npm run dev        # starts Vite dev server (usually http://localhost:5173)
-```
-
-### 6. Connect MetaMask
-
-1. Open the DApp in your browser.
-2. Click **Connect Wallet**.
-3. Switch MetaMask to **Ganache Local (Chain ID 1337)**.
-4. Import a Ganache account (private key) to interact as an actor.
-
----
-
-## 🧪 Testing
-
-Run the Truffle test suite:
-
-```bash
-# From project root
-npx truffle test
-```
-
-Test files:
-- `test/FoodChainToken.test.js` — FCT rewards, authorization, pausing
-- `test/FoodBatchNFT.test.js` — NFT minting, batch lifecycle, roles
-- `test/FoodChainIntegration.test.js` — End-to-end FCT ↔ FBP interaction
-
----
-
-## 📱 Frontend Pages
-
-| Page | Purpose |
-|------|---------|
-| **Dashboard** | Total batches, status breakdown, your FCT balance, recent registrations |
-| **Batches** | Register, ship, receive, and deliver batches; view batch details & history |
-| **Actors** | Look up actor roles; assign roles (Admin only) |
-| **Rewards** | View your FCT balance and reward transaction history |
-
----
-
-## 🔐 Security Considerations
-
-- **Private keys / `.env` files** are gitignored — never commit them.
-- Contract addresses in `frontend/src/blockchain/contracts.js` must be updated after every migration.
-- The NFT contract is the only authorized caller of `FCT.rewardActor` (set in migration 2).
-- Admin-only functions are protected by `onlyAdmin` / `onlyOwner` modifiers.
-- `pause()` / `unpause()` can halt reward issuance in an emergency.
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m "feat: add your feature"`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a Pull Request.
-
-Please follow existing code style and run `npm run lint` in the frontend before submitting.
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
-
----
-
-## 👥 Authors
-
-| Avatar | Name | Role | Links |
-| :---: | :--- | :--- | :--- |
-| <img src="https://github.com/fekikarim.png" width="40" height="40" style="border-radius:50%"> | **Karim Feki** | Smart Contract Developer — FoodChainToken (FCT) & Architecture | [GitHub](https://github.com/fekikarim) • [LinkedIn](https://www.linkedin.com/in/karimfeki) • [Portfolio](https://karimfeki.is-a.dev) |
-| <img src="https://github.com/nesrine-derouiche.png" width="40" height="40" style="border-radius:50%"> | **Nesrine Derouiche** | Smart Contract Developer — FoodBatchNFT (FBP) | [GitHub](https://github.com/nesrine-derouiche) • [LinkedIn](https://linkedin.com/in/nesrine-derouiche) • [Portfolio](https://nesrine-derouiche.is-a.dev) |
-
----
-
-> Built with ❤️ for transparent, tamper-proof food supply chains.
+## Limits
+Ganache only — tokens have no value. FCT are demo points, not money. The NFT proves who recorded what and when, **not** that produce is fresh or from the stated farm; data are declarations by the actors.

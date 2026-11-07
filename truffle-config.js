@@ -5,8 +5,8 @@
 module.exports = {
   networks: {
     development: {
-      host: "127.0.0.1",
-      port: 7545,          // Ganache Desktop default. Change to 8545 for Ganache CLI.
+      host: process.env.GANACHE_HOST || "127.0.0.1",
+      port: Number(process.env.GANACHE_PORT || 7545), // Ganache Desktop default. Change to 8545 for Ganache CLI.
       network_id: "*",     // Match any network ID
     }
   },

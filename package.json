@@ -1,10 +1,15 @@
 {
   "name": "anops-foodchain",
   "version": "1.0.0",
-  "description": "",
+  "description": "AnOps FoodChain - blockchain food traceability (ERC-20 FCT + ERC-721 Food Batch Passport)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "truffle compile",
+    "migrate": "truffle migrate --reset --network development",
+    "test": "truffle test",
+    "deploy": "truffle compile && truffle migrate --reset --network development",
+    "start": "npm --prefix frontend run dev",
+    "build:ui": "npm --prefix frontend run build"
   },
   "keywords": [],
   "author": "",

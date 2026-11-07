@@ -53,18 +53,72 @@ contract("FoodChainToken", (accounts) => {
     assert((await fct.balanceOf(alice)).eq(TEN_FCT), "reward not received");
   });
 
-  it("authorised caller (NFT contract) can rewardActor", async () => {
+  it("authorised caller can only pay the SCHEDULED amount (rewardForAction)", async () => {
     await fct.setAuthorizedCaller(authorized, true, { from: owner });
     const opId = web3.utils.soliditySha3("op002");
-    await fct.rewardActor(alice, TEN_FCT, opId, { from: authorized });
+    const tx = await fct.rewardForAction(alice, await fct.ACTION_REGISTER(), opId, { from: authorized });
+    expectEvent(tx, "RewardAction", { operationId: opId, caller: authorized });
     assert((await fct.balanceOf(alice)).eq(TEN_FCT));
+    assert((await fct.rewardsReceived(alice)).eq(TEN_FCT));
+    assert((await fct.rewardCount(alice)).toNumber() === 1);
+    assert((await fct.totalRewarded()).eq(TEN_FCT));
+  });
+
+  it("authorised caller can NOT choose a custom amount (rewardActor is owner-only)", async () => {
+    await fct.setAuthorizedCaller(authorized, true, { from: owner });
+    await expectRevert(
+      fct.rewardActor(alice, TEN_FCT, web3.utils.soliditySha3("op002b"), { from: authorized }),
+      "Ownable: caller is not the owner"
+    );
+  });
+
+  it("rewardForAction rejects unconfigured action types and strangers", async () => {
+    await expectRevert(
+      fct.rewardForAction(alice, web3.utils.soliditySha3("NOPE"), web3.utils.soliditySha3("x1"), { from: owner }),
+      "FCT: No reward configured for this action"
+    );
+    await expectRevert(
+      fct.rewardForAction(alice, await fct.ACTION_SHIP(), web3.utils.soliditySha3("x2"), { from: alice }),
+      "FCT: Caller not authorized to issue rewards"
+    );
+  });
+
+  it("reward pool is insufficient -> revert", async () => {
+    await fct.transfer(bob, ONE_M, { from: owner });
+    await expectRevert(
+      fct.rewardActor(alice, TEN_FCT, web3.utils.soliditySha3("pool"), { from: owner }),
+      "FCT: Reward pool insufficient"
+    );
+  });
+
+  it("owner can top up the pool but never beyond MAX_SUPPLY; others cannot mint", async () => {
+    await fct.mint(TEN_FCT, { from: owner });
+    assert((await fct.totalSupply()).eq(ONE_M.add(TEN_FCT)));
+    await expectRevert(fct.mint(TEN_FCT, { from: alice }), "Ownable: caller is not the owner");
+    await expectRevert(fct.mint(await fct.MAX_SUPPLY(), { from: owner }), "FCT: Max supply exceeded");
+  });
+
+  it("getOverview and getRewardSchedule expose dashboard data", async () => {
+    const o = await fct.getOverview();
+    assert(o.supply.eq(ONE_M)); assert(o.pool.eq(ONE_M)); assert.equal(o.isPaused, false);
+    assert.equal(o.admin, owner);
+    const sch = await fct.getRewardSchedule();
+    assert.equal(sch.actionTypes.length, 4);
+    assert(sch.amounts[0].eq(TEN_FCT));
+  });
+
+  it("emits RewardAmountUpdated and AuthorizedCallerUpdated", async () => {
+    let tx = await fct.setRewardAmount(await fct.ACTION_SHIP(), FIVE_FCT, { from: owner });
+    expectEvent(tx, "RewardAmountUpdated", { newAmount: FIVE_FCT });
+    tx = await fct.setAuthorizedCaller(authorized, true, { from: owner });
+    expectEvent(tx, "AuthorizedCallerUpdated", { caller: authorized, authorized: true });
   });
 
   it("reverts when unauthorized caller tries rewardActor", async () => {
     const opId = web3.utils.soliditySha3("op003");
     await expectRevert(
       fct.rewardActor(alice, TEN_FCT, opId, { from: alice }),
-      "FCT: Caller not authorized"
+      "Ownable: caller is not the owner"
     );
   });
 
